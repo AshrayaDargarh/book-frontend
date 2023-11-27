@@ -9,6 +9,7 @@ import Error from './components/Error.jsx';
 import BookList from './components/Books/BookList.jsx';
 import NewBook from './components/Books/NewBook.jsx';
 import Layout from './Layout.jsx';
+import UpdateBook from './components/Books/UpdateBook.jsx';
 
 const router=createBrowserRouter([
   {
@@ -23,7 +24,12 @@ const router=createBrowserRouter([
       {
         path:"/add-book",
         element:<NewBook/>
+      },
+      {
+        path:'/update-book/:id',
+        element:<UpdateBook/>
       }
+     
     ]
   }
 ])

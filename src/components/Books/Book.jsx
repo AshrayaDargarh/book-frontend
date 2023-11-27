@@ -1,17 +1,17 @@
 import React from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-const Book = ({book,books,setBooks}) => {
+import { Link } from 'react-router-dom';
+
+const Book = ({book,filteredBook,setFilteredBook}) => {
    const {bookName,author,bookDescription,_id}=book;
-   console.log(books)
-   const navigate=useNavigate()
+
    async function deleteBook(id)
    {
     try {
         if(window.confirm("Do you really want to delete?"))
         {
         const deletedBook=await axios.delete(`https://book-api-lilac.vercel.app/api/books/delete-book/${id}`);
-        setBooks(books.filter(b=>b._id!==id));      
+        setFilteredBook(filteredBook.filter(b=>b._id!==id));      
         }
        
       } catch (error) {
@@ -34,9 +34,11 @@ const Book = ({book,books,setBooks}) => {
         </p>
         <p className="mt-2 text-gray-300">Desc: {bookDescription}</p>
         <div className="mt-4">
+        <Link  to={`/update-book/${_id}`} state={book} >
           <button className="bg-blue-800 hover:bg-blue-700 rounded-md text-white font-bold py-2 px-4 mr-2">
-            Update
+           Update
           </button>
+          </Link>
           <button className="bg-red-800 hover:bg-red-700 rounded-md text-white font-bold py-2 px-4" onClick={()=>deleteBook(_id)}>
             Delete
           </button>

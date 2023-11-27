@@ -1,36 +1,55 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Blocks } from 'react-loader-spinner';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-const NewBook = () => {
+import { useLocation, useParams,useNavigate } from 'react-router-dom';
+
+const UpdateBook = (props) => {
   const [formData, setFormData] = useState({
     bookName: '',
     author: '',
     bookDescription: '',
   });
   const [isLoading,setIsLoading]=useState(false)
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  const {id}=useParams();
+  const {state}=useLocation();
+
+  useEffect(() => {
+    if (state ) {
+      const { bookName, author, bookDescription } = state;
+      setFormData({
+        bookName: bookName || '',
+        author: author || '',
+        bookDescription: bookDescription || '',
+      });
+    }
+  }, [state]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
+   
   };
 
   const handleSubmit =async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true)
-      const response=await axios.post("https://book-api-lilac.vercel.app/api/books/create-book",formData);
+      const response=await axios.patch(`https://book-api-lilac.vercel.app/api/books/update-book/${id}`,formData);
+      console.log(response)
       setIsLoading(false)
     setFormData({
       bookName: '',
       author: '',
       bookDescription: '',
     });
-    navigate('/')
-    } catch (error) {
+    navigate('/');
+
+    }
+     catch (error) {
       setIsLoading(false)
     }
     
@@ -105,4 +124,4 @@ const NewBook = () => {
   );
 }
 
-export default NewBook
+export default UpdateBook
