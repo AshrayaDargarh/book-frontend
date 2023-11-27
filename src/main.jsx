@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import './index.css'
 import Error from './components/Error.jsx';
-import Books from './components/Books/Books.jsx';
+import BookList from './components/Books/BookList.jsx';
 import NewBook from './components/Books/NewBook.jsx';
 import Layout from './Layout.jsx';
 
@@ -18,7 +18,7 @@ const router=createBrowserRouter([
     children:[
       {
         path:"",
-        element:<Books/>
+        element:<BookList/>
       },
       {
         path:"/add-book",
@@ -29,7 +29,7 @@ const router=createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <>
       <RouterProvider router={router}/>
-  </React.StrictMode>,
+  </>,
 )
